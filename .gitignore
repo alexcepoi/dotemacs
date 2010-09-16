@@ -1,2 +1,8 @@
+# Temporary files
 **.elc
 **~
+
+# Caches
+auto-save-list/
+semanticdb/
+ede-projects.el

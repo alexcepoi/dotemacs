@@ -1,8 +1,8 @@
-; PERSONAL
+;; PERSONAL
 (setq user-full-name "Alexandru Cepoi")
 (setq user-mail-address "alex.cepoi@gmail.com")
 
-; LOOK and FEEL
+;; LOOK and FEEL
 (add-to-list 'default-frame-alist '(font . "Monospace-10"))
 (add-to-list 'default-frame-alist '(top . 70))
 (add-to-list 'default-frame-alist '(left . 30))
@@ -12,34 +12,58 @@
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'right)
 
+(show-paren-mode t)
 (setq-default truncate-lines t)
 ;(setq visual-line-mode t)
 
-; COMPANY MODE
+;; IDO MODE
+(require 'ido)
+(ido-mode t)
+(setq ido-enable-flex-matching t)
+
+;; COMPANY MODE
 (add-to-list 'load-path "~/.emacs.d/company")
 (autoload 'company-mode "company" nil t)
 (setq company-minimum-prefix-length 1)
 (setq company-idle-delay 0.5)
 
-; BACKUP OPTIONS
+;; SEMANTIC
+(global-ede-mode 1)
+(semantic-mode)
+
+(setq semantic-default-submodes
+'(global-semanticdb-minor-mode
+global-semantic-idle-scheduler-mode
+global-semantic-idle-summary-mode
+global-semantic-idle-completions-mode
+global-semantic-decoration-mode
+global-semantic-highlight-func-mode
+global-semantic-stickyfunc-mode))
+
+(defun my-c-mode-cedet-hook ()
+ (local-set-key "." 'semantic-complete-self-insert)
+ (local-set-key ">" 'semantic-complete-self-insert))
+(add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
+
+;; BACKUP OPTIONS
 (setq inhibit-splash-screen t)
 (setq backup-inhibited t)
 (setq auto-save-default nil)
 
-; COLOR THEME
+;; COLOR THEME
 ;(require 'color-theme)
 ;(color-theme-initialize)
 ;(color-theme-arjen)
 
-; LINE NUMBERS
+;; LINE NUMBERS
 ;(global-linum-mode 1)
 ;(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat " %" (number-to-string w) "d  ")) line) 'face 'linum)))
 
-; YASNIPPET
+;; YASNIPPET
 ;(yas/initialize)
 ;(yas/load-directory "/usr/share/emacs/etc/yasnippet/snippets")
 
-; INDENTATION OPTIONS
+;; INDENTATION OPTIONS
 ;(setq-default intent-tabs-mode t)
 ;(setq-default tab-width 4)
 (setq gdb-many-windows t)
