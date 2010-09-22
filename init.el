@@ -1,3 +1,12 @@
+;;    ___ _ __ ___   __ _  ___ ___
+;;   / _ \ '_ ` _ \ / _` |/ __/ __|
+;;  |  __/ | | | | | (_| | (__\__ \
+;; (_)___|_| |_| |_|\__,_|\___|___/
+;;
+;;     "While any text editor can save your files, only Emacs can save your
+;;     soul."
+;;                                                         [Per Abrahamsen]
+
 ;; PERSONAL
 (setq user-full-name "Alexandru Cepoi")
 (setq user-mail-address "alex.cepoi@gmail.com")
@@ -21,12 +30,6 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
-;; COMPANY MODE
-(add-to-list 'load-path "~/.emacs.d/company")
-(autoload 'company-mode "company" nil t)
-(setq company-minimum-prefix-length 1)
-(setq company-idle-delay 0.5)
-
 ;; SEMANTIC
 (global-ede-mode 1)
 (semantic-mode)
@@ -44,6 +47,19 @@ global-semantic-stickyfunc-mode))
  (local-set-key "." 'semantic-complete-self-insert)
  (local-set-key ">" 'semantic-complete-self-insert))
 (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
+
+;; LATEX
+(add-hook 'LaTeX-mode-hook (lambda()
+ (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+ (setq TeX-command-default "XeLaTeX")
+ (setq TeX-save-query nil)
+ (setq TeX-show-compilation t)))
+
+(setq TeX-PDF-mode t)
+(defun pdfevince ()
+     (add-to-list 'TeX-output-view-style (quote ("^pdf$" "." "evince %o %(outpage)"))))
+(add-hook  'LaTeX-mode-hook  'pdfevince  t)
+
 
 ;; BACKUP OPTIONS
 (setq inhibit-splash-screen t)
@@ -71,13 +87,54 @@ global-semantic-stickyfunc-mode))
 (setq-default backward-delete-char-untabify-method 'nill)
 (global-set-key (kbd "RET") 'newline-and-indent)
 
-(setq-default c-basic-offset 4)
+;(setq-default c-basic-offset 4)
 (setq-default c-default-style "bsd")
-(add-hook 'c-mode-common-hook '(lambda() (setq tab-width 4)))
+;(add-hook 'c-mode-common-hook '(lambda() (setq tab-width 4)))
 
+;; PYTHON OPTIONS
+; requires pymacs to be installed
+(require 'pymacs)
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+
+
+(setq pymacs-load-path '( "~/.emacs.d/python/rope"
+                          "~/.emacs.d/python/ropemode"
+                          "~/.emacs.d/python/ropemacs"))
+(pymacs-load "ropemacs" "rope-")
+
+;(add-to-list 'load-path "~/.emacs.d/python")
+
+;; RUBY OPTIONS
 ;(setq ruby-indent-tabs-mode t)
 ;(require 'ruby-electric)
 
+;; COMPANY MODE
+(add-to-list 'load-path "~/.emacs.d/company")
+(autoload 'company-mode "company" nil t)
+(setq company-minimum-prefix-length 1)
+(setq company-idle-delay 0.5)
+(dolist (hook (list
+		'emacs-lisp-mode-hook
+		'lisp-mode-hook
+		'lisp-interaction-mode-hook
+		'scheme-mode-hook
+		'c-mode-hook
+		'c++-mode-hook
+		'java-mode-hook
+		'python-mode-hook
+		'haskell-mode-hook
+		'asm-mode-hook
+		'emms-tag-editor-mode-hook
+		'sh-mode-hook
+		))
+  (add-hook hook 'company-mode))
+
+
+;; GUI OPTIONS
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
