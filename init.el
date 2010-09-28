@@ -24,7 +24,7 @@
 
 (show-paren-mode t)
 (setq-default truncate-lines t)
-;(setq visual-line-mode t)
+;;(setq visual-line-mode t)
 
 ;; IDO MODE
 (require 'ido)
@@ -68,17 +68,17 @@ global-semantic-stickyfunc-mode))
 (setq auto-save-default nil)
 
 ;; COLOR THEME
-;(require 'color-theme)
-;(color-theme-initialize)
-;(color-theme-arjen)
+;;(require 'color-theme)
+;;(color-theme-initialize)
+;;(color-theme-arjen)
 
 ;; LINE NUMBERS
-;(global-linum-mode 1)
-;(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat " %" (number-to-string w) "d  ")) line) 'face 'linum)))
+;;(global-linum-mode 1)
+;;(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat " %" (number-to-string w) "d  ")) line) 'face 'linum)))
 
 ;; YASNIPPET
-;(yas/initialize)
-;(yas/load-directory "/usr/share/emacs/etc/yasnippet/snippets")
+;;(yas/initialize)
+;;(yas/load-directory "/usr/share/emacs/etc/yasnippet/snippets")
 
 ;; MODE COMPILE
 (add-to-list 'load-path "~/.emacs.d/")
@@ -92,19 +92,19 @@ global-semantic-stickyfunc-mode))
 (global-set-key [C-f9] 'mode-compile-kill)
 
 ;; INDENTATION OPTIONS
-;(setq-default intent-tabs-mode t)
-;(setq-default tab-width 4)
+;;(setq-default intent-tabs-mode t)
+;;(setq-default tab-width 4)
 (setq gdb-many-windows t)
 (setq gdb-use-separate-io-buffer t)
 (setq-default backward-delete-char-untabify-method 'nill)
 (global-set-key (kbd "RET") 'newline-and-indent)
 
-;(setq-default c-basic-offset 4)
+;;(setq-default c-basic-offset 4)
 (setq-default c-default-style "bsd")
-;(add-hook 'c-mode-common-hook '(lambda() (setq tab-width 4)))
+;;(add-hook 'c-mode-common-hook '(lambda() (setq tab-width 4)))
 
 ;; PYTHON OPTIONS
-; requires pymacs to be installed
+;; (requires pymacs to be installed)
 (require 'pymacs)
 (autoload 'pymacs-apply "pymacs")
 (autoload 'pymacs-call "pymacs")
@@ -118,11 +118,11 @@ global-semantic-stickyfunc-mode))
                           "~/.emacs.d/python/ropemacs"))
 (pymacs-load "ropemacs" "rope-")
 
-;(add-to-list 'load-path "~/.emacs.d/python")
+;;(add-to-list 'load-path "~/.emacs.d/python")
 
 ;; RUBY OPTIONS
-;(setq ruby-indent-tabs-mode t)
-;(require 'ruby-electric)
+;;(setq ruby-indent-tabs-mode t)
+;;(require 'ruby-electric)
 
 ;; ECB
 (add-to-list 'load-path "~/.emacs.d/ecb")
@@ -137,6 +137,9 @@ global-semantic-stickyfunc-mode))
 (setq ecb-source-path (quote (("~/work" "work") ("~/.emacs.d" ".emacs.d"))))
 
 (setq ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+(setq ecb-basic-buffer-sync-delay nil)
+(setq ecb-analyse-buffer-sync-delay nil)
+
 (setq ecb-options-version "2.40")
 (require 'ecb)
 
