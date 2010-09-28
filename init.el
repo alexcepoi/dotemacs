@@ -20,6 +20,7 @@
 
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'right)
+(set-cursor-color "gray30")
 
 (show-paren-mode t)
 (setq-default truncate-lines t)
@@ -79,6 +80,17 @@ global-semantic-stickyfunc-mode))
 ;(yas/initialize)
 ;(yas/load-directory "/usr/share/emacs/etc/yasnippet/snippets")
 
+;; MODE COMPILE
+(add-to-list 'load-path "~/.emacs.d/")
+
+(autoload 'mode-compile "mode-compile"
+  "Command to compile current buffer file based on the major mode" t)
+(global-set-key [f9] 'mode-compile)
+
+(autoload 'mode-compile-kill "mode-compile"
+  "Command to kill a compilation launched by `mode-compile'" t)
+(global-set-key [C-f9] 'mode-compile-kill)
+
 ;; INDENTATION OPTIONS
 ;(setq-default intent-tabs-mode t)
 ;(setq-default tab-width 4)
@@ -112,6 +124,22 @@ global-semantic-stickyfunc-mode))
 ;(setq ruby-indent-tabs-mode t)
 ;(require 'ruby-electric)
 
+;; ECB
+(add-to-list 'load-path "~/.emacs.d/ecb")
+(setq ecb-auto-activate t)
+(setq ecb-tip-of-the-day nil)
+
+(setq ecb-create-layout-file "~/.emacs.d/ecb-user-layouts.el")
+(setq ecb-layout-name "leftright-custom")
+(setq ecb-fix-window-size (quote width))
+(setq ecb-windows-width 30)
+(setq ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "leftright-custom")))
+(setq ecb-source-path (quote (("~/work" "work") ("~/.emacs.d" ".emacs.d"))))
+
+(setq ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+(setq ecb-options-version "2.40")
+(require 'ecb)
+
 ;; COMPANY MODE
 (add-to-list 'load-path "~/.emacs.d/company")
 (autoload 'company-mode "company" nil t)
@@ -140,7 +168,7 @@ global-semantic-stickyfunc-mode))
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- )
+ '(ecb-options-version "2.40"))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
