@@ -22,6 +22,9 @@
 (set-scroll-bar-mode 'right)
 (set-cursor-color "gray30")
 
+(setq max-mini-window-height 1)
+(setq enable-local-variables :safe)
+
 (show-paren-mode t)
 (setq-default truncate-lines t)
 ;;(setq visual-line-mode t)
@@ -117,6 +120,7 @@ global-semantic-stickyfunc-mode))
                           "~/.emacs.d/python/ropemode"
                           "~/.emacs.d/python/ropemacs"))
 (pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-autoimport 't)
 
 ;;(add-to-list 'load-path "~/.emacs.d/python")
 
@@ -126,6 +130,10 @@ global-semantic-stickyfunc-mode))
 
 ;; ECB
 (add-to-list 'load-path "~/.emacs.d/ecb")
+
+;; This doesn't work unless set as a custom variable
+;;(setq ecb-options-version "2.40")
+
 (setq ecb-auto-activate t)
 (setq ecb-tip-of-the-day nil)
 
@@ -134,13 +142,14 @@ global-semantic-stickyfunc-mode))
 (setq ecb-fix-window-size (quote width))
 (setq ecb-windows-width 30)
 (setq ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "leftright-custom")))
-(setq ecb-source-path (quote (("~/work" "work") ("~/.emacs.d" ".emacs.d"))))
+
+;; This is better set as a custom variable
+;;(setq ecb-source-path (quote (("~/work" "work") ("~/.emacs.d" ".emacs.d"))))
 
 (setq ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
-(setq ecb-basic-buffer-sync-delay nil)
-(setq ecb-analyse-buffer-sync-delay nil)
+(setq ecb-basic-buffer-sync-delay 0.5)
+(setq ecb-analyse-buffer-sync-delay 0.5)
 
-(setq ecb-options-version "2.40")
 (require 'ecb)
 
 ;; COMPANY MODE
@@ -171,7 +180,8 @@ global-semantic-stickyfunc-mode))
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(ecb-options-version "2.40"))
+ '(ecb-options-version "2.40")
+ '(ecb-source-path (quote (("~/work" "work") ("~/.emacs.d" ".emacs.d")))))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
