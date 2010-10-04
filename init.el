@@ -80,8 +80,10 @@ global-semantic-stickyfunc-mode))
 ;;(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat " %" (number-to-string w) "d  ")) line) 'face 'linum)))
 
 ;; YASNIPPET
-;;(yas/initialize)
-;;(yas/load-directory "/usr/share/emacs/etc/yasnippet/snippets")
+(add-to-list 'load-path "~/.emacs.d/yasnippet")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippet/snippets")
 
 ;; MODE COMPILE
 (add-to-list 'load-path "~/.emacs.d/")
