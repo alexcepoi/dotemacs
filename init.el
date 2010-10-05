@@ -22,12 +22,44 @@
 (set-scroll-bar-mode 'right)
 (set-cursor-color "gray30")
 
-(setq max-mini-window-height 1)
-(setq enable-local-variables :safe)
-
 (show-paren-mode t)
 (setq-default truncate-lines t)
 ;;(setq visual-line-mode t)
+
+(setq max-mini-window-height 1)
+(setq enable-local-variables :safe)
+
+(add-to-list 'load-path "~/.emacs.d/plugins")
+
+;; BACKUP OPTIONS
+(setq inhibit-splash-screen t)
+(setq backup-inhibited t)
+(setq auto-save-default nil)
+
+;; COLOR THEME
+;;(require 'color-theme)
+;;(color-theme-initialize)
+;;(color-theme-arjen)
+
+;; BUFFERS
+;;(global-set-key (kbd "C-x C-b") 'ibuffer)
+(defalias 'list-buffers 'ibuffer)
+(setq ibuffer-expert t)
+;;(setq ibuffer-default-sorting-mode 'major-mode)
+
+(add-hook 'ibuffer-mode-hook
+  '(lambda () (ibuffer-auto-mode 1)))
+
+;; SCROLLING
+(require 'smooth-scrolling)
+(setq smooth-scroll-margin 5)
+
+;; LINE NUMBERS
+(setq linum-format "%4d ")
+(setq column-number-mode t)
+
+;;(global-linum-mode 1)
+;;(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat " %" (number-to-string w) "d  ")) line) 'face 'linum)))
 
 ;; IDO MODE
 (require 'ido)
@@ -52,42 +84,13 @@ global-semantic-stickyfunc-mode))
  (local-set-key ">" 'semantic-complete-self-insert))
 (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
 
-;; LATEX
-(add-hook 'LaTeX-mode-hook (lambda()
- (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
- (setq TeX-command-default "XeLaTeX")
- (setq TeX-save-query nil)
- (setq TeX-show-compilation t)))
-
-(setq TeX-PDF-mode t)
-(defun pdfevince ()
-     (add-to-list 'TeX-output-view-style (quote ("^pdf$" "." "evince %o %(outpage)"))))
-(add-hook  'LaTeX-mode-hook  'pdfevince  t)
-
-
-;; BACKUP OPTIONS
-(setq inhibit-splash-screen t)
-(setq backup-inhibited t)
-(setq auto-save-default nil)
-
-;; COLOR THEME
-;;(require 'color-theme)
-;;(color-theme-initialize)
-;;(color-theme-arjen)
-
-;; LINE NUMBERS
-;;(global-linum-mode 1)
-;;(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat " %" (number-to-string w) "d  ")) line) 'face 'linum)))
-
 ;; YASNIPPET
-(add-to-list 'load-path "~/.emacs.d/yasnippet")
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet/snippets")
+(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
 
 ;; MODE COMPILE
-(add-to-list 'load-path "~/.emacs.d/")
-
 (autoload 'mode-compile "mode-compile"
   "Command to compile current buffer file based on the major mode" t)
 (global-set-key [f9] 'mode-compile)
@@ -108,6 +111,18 @@ global-semantic-stickyfunc-mode))
 (setq-default c-default-style "bsd")
 ;;(add-hook 'c-mode-common-hook '(lambda() (setq tab-width 4)))
 
+;; LATEX
+(add-hook 'LaTeX-mode-hook (lambda()
+ (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+ (setq TeX-command-default "XeLaTeX")
+ (setq TeX-save-query nil)
+ (setq TeX-show-compilation t)))
+
+(setq TeX-PDF-mode t)
+(defun pdfevince ()
+     (add-to-list 'TeX-output-view-style (quote ("^pdf$" "." "evince %o %(outpage)"))))
+(add-hook  'LaTeX-mode-hook  'pdfevince  t)
+
 ;; PYTHON OPTIONS
 ;; (requires pymacs to be installed)
 (require 'pymacs)
@@ -117,21 +132,25 @@ global-semantic-stickyfunc-mode))
 (autoload 'pymacs-exec "pymacs" nil t)
 (autoload 'pymacs-load "pymacs" nil t)
 
-
 (setq pymacs-load-path '( "~/.emacs.d/python/rope"
                           "~/.emacs.d/python/ropemode"
                           "~/.emacs.d/python/ropemacs"))
+
 (pymacs-load "ropemacs" "rope-")
 (setq ropemacs-enable-autoimport 't)
 
-;;(add-to-list 'load-path "~/.emacs.d/python")
+(defun my-python-mode-hook ()
+ (setq indent-tabs-mode t)
+ (setq python-indent 4)
+ (setq tab-width 4))
+(add-hook 'python-mode-hook 'my-python-mode-hook)
 
 ;; RUBY OPTIONS
-;;(setq ruby-indent-tabs-mode t)
+(setq ruby-indent-tabs-mode t)
 ;;(require 'ruby-electric)
 
 ;; ECB
-(add-to-list 'load-path "~/.emacs.d/ecb")
+(add-to-list 'load-path "~/.emacs.d/plugins/ecb")
 
 ;; This doesn't work unless set as a custom variable
 ;;(setq ecb-options-version "2.40")
@@ -155,26 +174,29 @@ global-semantic-stickyfunc-mode))
 (require 'ecb)
 
 ;; COMPANY MODE
-(add-to-list 'load-path "~/.emacs.d/company")
+(add-to-list 'load-path "~/.emacs.d/plugins/company")
 (autoload 'company-mode "company" nil t)
 (setq company-minimum-prefix-length 1)
 (setq company-idle-delay 0.5)
-(dolist (hook (list
-		'emacs-lisp-mode-hook
-		'lisp-mode-hook
-		'lisp-interaction-mode-hook
-		'scheme-mode-hook
-		'c-mode-hook
-		'c++-mode-hook
-		'java-mode-hook
-		'python-mode-hook
-		'haskell-mode-hook
-		'asm-mode-hook
-		'emms-tag-editor-mode-hook
-		'sh-mode-hook
-		))
-  (add-hook hook 'company-mode))
 
+;; COMMON HOOKS
+(dolist (hook (list
+	       'emacs-lisp-mode-hook
+	       'lisp-mode-hook
+	       'lisp-interaction-mode-hook
+	       'scheme-mode-hook
+	       'c-mode-hook
+	       'c++-mode-hook
+	       'java-mode-hook
+	       'python-mode-hook
+	       'haskell-mode-hook
+	       'asm-mode-hook
+	       'emms-tag-editor-mode-hook
+	       'sh-mode-hook
+	       ))
+  ;;(add-hook hook 'linum-mode)
+  ;;(add-hook hook 'hl-line-mode)
+  (add-hook hook 'company-mode))
 
 ;; GUI OPTIONS
 (custom-set-variables
