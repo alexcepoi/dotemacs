@@ -20,26 +20,54 @@
 
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'right)
-(set-cursor-color "gray30")
 
 (show-paren-mode t)
 (setq-default truncate-lines t)
-;;(setq visual-line-mode t)
+(setq visual-line-mode t)
 
 (setq max-mini-window-height 1)
 (setq enable-local-variables :safe)
 
 (add-to-list 'load-path "~/.emacs.d/plugins")
 
+;; COLOR THEME
+(add-to-list 'load-path "~/.emacs.d/plugins/color-theme")
+(require 'color-theme)
+(color-theme-initialize)
+
+(add-to-list 'load-path "~/.emacs.d/themes")
+(require 'railscasts)
+(color-theme-railscasts)
+
+(set-cursor-color "gray30")
+(set-face-attribute 'mode-line nil
+		    :box '(:line-width -1 :color "grey40")
+		    :background "grey80"
+		    :foreground "grey20")
+
+(set-face-attribute 'mode-line-highlight nil
+		    :box 'nil
+		    :background "grey60")
+
+(set-face-attribute 'mode-line-buffer-id nil
+		    :weight 'light
+		    :background "grey80"
+		    :foreground "red3")
+
+(setq ansi-term-color-vector
+[unspecified "#000000" "#963F3C" "#5FFB65" "#FFFD65"
+"#0082FF" "#FF2180" "#57DCDB" "#FFFFFF"])
+
+;;(setq ansi-term-color-vector
+;;[unspecified "#2E3436" "#CC0000" "#4E9A06" "#C4A000"
+;;"#3465A4" "#75507B" "#06989A" "#D3D7CF"
+;;"#555753" "#EF2929" "#8AE234" "#FCE94F"
+;;"#729FCF" "#AD7FA8" "#34E2E2" "#EEEEEC"])
+
 ;; BACKUP OPTIONS
 (setq inhibit-splash-screen t)
 (setq backup-inhibited t)
 (setq auto-save-default nil)
-
-;; COLOR THEME
-;;(require 'color-theme)
-;;(color-theme-initialize)
-;;(color-theme-arjen)
 
 ;; BUFFERS
 ;;(global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -55,11 +83,8 @@
 (setq smooth-scroll-margin 5)
 
 ;; LINE NUMBERS
-(setq linum-format "%4d ")
+(setq linum-format "%4d")
 (setq column-number-mode t)
-
-;;(global-linum-mode 1)
-;;(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat " %" (number-to-string w) "d  ")) line) 'face 'linum)))
 
 ;; IDO MODE
 (require 'ido)
@@ -172,6 +197,8 @@ global-semantic-stickyfunc-mode))
 (setq ecb-analyse-buffer-sync-delay 0.5)
 
 (require 'ecb)
+(set-face-attribute 'ecb-default-highlight-face nil
+		    :background "sienna")
 
 ;; COMPANY MODE
 (add-to-list 'load-path "~/.emacs.d/plugins/company")
@@ -211,7 +238,4 @@ global-semantic-stickyfunc-mode))
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(mode-line ((((class color) (min-colors 88)) (:background "grey80" :foreground "black" :box (:line-width -1 :color "blue")))))
- '(mode-line-buffer-id ((t (:foreground "red3"))))
- '(mode-line-highlight ((((class color) (min-colors 88)) nil)))
- '(mode-line-inactive ((default (:inherit mode-line)) (((class color) (min-colors 88) (background light)) (:background "grey90" :foreground "grey20" :box (:line-width -1 :color "grey75") :weight light)))))
+)
