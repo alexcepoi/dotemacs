@@ -171,8 +171,13 @@ global-semantic-stickyfunc-mode))
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 
 ;; RUBY OPTIONS
-(setq ruby-indent-tabs-mode t)
-;;(require 'ruby-electric)
+(add-to-list 'load-path "~/.emacs.d/ruby/rinari")
+(require 'rinari)
+
+(define-key ruby-mode-map (kbd "TAB") nil)
+(defun my-ruby-mode-hook ()
+  (local-set-key (kbd "RET") 'reindent-then-newline-and-indent))
+(add-hook 'ruby-mode-hook 'my-ruby-mode-hook)
 
 ;; ECB
 (add-to-list 'load-path "~/.emacs.d/plugins/ecb")
@@ -216,6 +221,7 @@ global-semantic-stickyfunc-mode))
 	       'c++-mode-hook
 	       'java-mode-hook
 	       'python-mode-hook
+	       'ruby-mode-hook
 	       'haskell-mode-hook
 	       'asm-mode-hook
 	       'emms-tag-editor-mode-hook
