@@ -173,6 +173,8 @@ global-semantic-stickyfunc-mode))
 ;; RUBY OPTIONS
 (add-to-list 'load-path "~/.emacs.d/ruby/rinari")
 (require 'rinari)
+(require 'haml-mode)
+(require 'sass-mode)
 
 (define-key ruby-mode-map (kbd "TAB") nil)
 (defun my-ruby-mode-hook ()
