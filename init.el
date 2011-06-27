@@ -13,10 +13,10 @@
 
 ;; LOOK and FEEL
 (add-to-list 'default-frame-alist '(font . "Monospace-10"))
-(add-to-list 'default-frame-alist '(top . 70))
-(add-to-list 'default-frame-alist '(left . 30))
+;;(add-to-list 'default-frame-alist '(top . 70))
+;;(add-to-list 'default-frame-alist '(left . 30))
 (add-to-list 'default-frame-alist '(height . 50))
-(add-to-list 'default-frame-alist '(width . 150))
+(add-to-list 'default-frame-alist '(width . 140))
 
 (tool-bar-mode -1)
 (set-scroll-bar-mode 'right)
@@ -36,8 +36,8 @@
 (color-theme-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/themes")
-(require 'railscasts)
-(color-theme-railscasts)
+;;(require 'railscasts)
+;;(color-theme-railscasts)
 
 (set-cursor-color "gray30")
 (set-face-attribute 'mode-line nil
@@ -85,6 +85,7 @@
 ;; LINE NUMBERS
 (setq linum-format "%4d")
 (setq column-number-mode t)
+(setq fill-column 100)
 
 ;; IDO MODE
 (require 'ido)
@@ -136,12 +137,20 @@ global-semantic-stickyfunc-mode))
 (setq-default c-default-style "bsd")
 ;;(add-hook 'c-mode-common-hook '(lambda() (setq tab-width 4)))
 
+;; SHEBANG
+(add-to-list 'interpreter-mode-alist '("ruby1.9" . ruby-mode))
+(add-to-list 'interpreter-mode-alist '("python2.6" . python-mode))
+
 ;; LATEX
 (add-hook 'LaTeX-mode-hook (lambda()
  (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
  (setq TeX-command-default "XeLaTeX")
  (setq TeX-save-query nil)
  (setq TeX-show-compilation t)))
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'company-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
 
 (setq TeX-PDF-mode t)
 (defun pdfevince ()
@@ -191,7 +200,8 @@ global-semantic-stickyfunc-mode))
 (setq ecb-tip-of-the-day nil)
 
 (setq ecb-create-layout-file "~/.emacs.d/ecb-user-layouts.el")
-(setq ecb-layout-name "leftright-custom")
+;;(setq ecb-layout-name "leftright-custom")
+(setq ecb-layout-name "left13")
 (setq ecb-fix-window-size (quote width))
 (setq ecb-windows-width 30)
 (setq ecb-show-sources-in-directories-buffer (quote ("left7" "left13" "left14" "left15" "leftright-custom")))
